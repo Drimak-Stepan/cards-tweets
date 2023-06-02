@@ -46,8 +46,9 @@ const Tweets = () => {
         }));
       }
     };
-
-    fechTweets();
+    if (page) {
+      fechTweets();
+    }
   }, [page]);
 
   const loadMore = () => {
