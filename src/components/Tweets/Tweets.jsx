@@ -7,11 +7,12 @@ import { getTweets } from "../../utils/Api";
 
 const Tweets = () => {
   const [state, setState] = useState({
-    items: [],
-    page: 1,
     loading: false,
+    load: false,
     error: null,
   });
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fechTweets = async () => {
@@ -21,11 +22,18 @@ const Tweets = () => {
           loading: true,
         }));
 
-        const data = await getTweets();
+        const { data } = await getTweets(page);
+        setItems((items) => [...items, ...data]);
         setState((prevState) => ({
           ...prevState,
-          items: data,
+          load: true,
         }));
+
+        if (data.length < 3)
+          setState((prevState) => ({
+            ...prevState,
+            load: false,
+          }));
       } catch (error) {
         setState((prevState) => ({
           ...prevState,
@@ -39,22 +47,15 @@ const Tweets = () => {
       }
     };
 
-    if (state.page === 1) {
-      fechTweets();
-    }
-  }, [state.page]);
+    fechTweets();
+  }, [page]);
 
   const loadMore = () => {
-    setState((prevState) => ({
-      ...prevState,
-      page: state.page + 1,
-    }));
+    setPage((prevPage) => prevPage + 1);
   };
 
   const navigate = useNavigate();
   const goBack = () => navigate("/");
-
-  const { items } = state;
 
   return (
     <>
@@ -65,16 +66,20 @@ const Tweets = () => {
         {items.map((item) => (
           <TweetItem
             key={item.id}
+            id={item.id}
             user={item.user}
             tweets={item.tweets}
             followers={item.followers}
             avatarUrl={item.avatar}
+            following={item.following}
           />
         ))}
       </TweetsList>
-      <Button onClick={loadMore} type="button">
-        Lore more
-      </Button>
+      {state.load && (
+        <Button onClick={loadMore} type="button">
+          Lore more
+        </Button>
+      )}
     </>
   );
 };
