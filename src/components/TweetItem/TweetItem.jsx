@@ -1,5 +1,4 @@
 import { memo } from "react";
-
 import { useState } from "react";
 import {
   Item,
@@ -32,7 +31,7 @@ const TweetItem = ({
       setFollower(followers + 1);
       const updateToFollowing = {
         following: true,
-        followers: follower + 1,
+        followers: follower,
       };
       await updateFollowing(id, updateToFollowing);
     } catch (error) {
@@ -46,7 +45,7 @@ const TweetItem = ({
       setFollower(followers - 1);
       const updateToFollowing = {
         following: false,
-        followers: follower - 1,
+        followers: follower,
       };
       await updateFollowing(id, updateToFollowing);
     } catch (error) {
