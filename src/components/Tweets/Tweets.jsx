@@ -57,7 +57,6 @@ const Tweets = () => {
 
   const navigate = useNavigate();
   const goBack = () => navigate("/");
-
   return (
     <>
       <Button onClick={goBack} type="button">

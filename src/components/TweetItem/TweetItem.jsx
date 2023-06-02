@@ -1,5 +1,6 @@
 import { memo } from "react";
-import React, { useState } from "react";
+
+import { useState } from "react";
 import {
   Item,
   Avatar,
@@ -22,16 +23,32 @@ const TweetItem = ({
   following,
   avatarUrl = Hansel,
 }) => {
-  const [follow, setFollow] = useState(true);
+  const [follow, setFollow] = useState(following);
+  const [follower, setFollower] = useState(followers);
 
   const handleUpdate = async () => {
     try {
+      setFollow(true);
+      setFollower(followers + 1);
       const updateToFollowing = {
-        following: follow,
+        following: true,
+        followers: follower + 1,
       };
-
       await updateFollowing(id, updateToFollowing);
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
       setFollow(false);
+      setFollower(followers - 1);
+      const updateToFollowing = {
+        following: false,
+        followers: follower - 1,
+      };
+      await updateFollowing(id, updateToFollowing);
     } catch (error) {
       return error;
     }
@@ -45,10 +62,20 @@ const TweetItem = ({
         <Avatar src={avatarUrl} alt="avatar" />
       </Circle>
       <Text>{tweets} TWEETS</Text>
-      <Text>{followers.toLocaleString()} FOLLOWERS</Text>
-      <Button onClick={handleUpdate} type="button">
-        FOLLOW
-      </Button>
+      <Text>{follower.toLocaleString()} FOLLOWERS</Text>
+      {follow ? (
+        <Button
+          onClick={handleCancel}
+          type="button"
+          style={{ backgroundColor: "#5CD3A8" }}
+        >
+          FOLLOWING
+        </Button>
+      ) : (
+        <Button onClick={handleUpdate} type="button">
+          FOLLOW
+        </Button>
+      )}
       <Pictures />
       <Line />
     </Item>

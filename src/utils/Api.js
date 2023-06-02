@@ -2,7 +2,10 @@ import axios from "axios";
 
 export const instance = axios.create({
   baseURL: "https://63fe35d1571200b7b7c7604e.mockapi.io/users",
-  headers: { "content-type": "application/json" },
+  headers: {
+    "content-type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  },
 });
 
 const ERROR_500_MESSAGE = "Internal server error.";
@@ -30,11 +33,10 @@ export const getTweets = async (page) => {
   }
 };
 
-export const updateFollowing = async (id, body) => {
+export const updateFollowing = async (id, isFollowing) => {
   try {
-    console.log(body);
-    const { data } = await instance.patch(`/${id}`, { body });
-    return data;
+    const res = await instance.put(`/${id}`, isFollowing);
+    return res;
   } catch (error) {
     const {
       message: errorMessage,
