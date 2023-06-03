@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { TweetsList } from "./Tweets.styles";
+import { TweetsList, FilterContainer } from "./Tweets.styles";
 import Button from "../../shared/components/Button";
 import TweetItem from "../TweetItem/TweetItem";
+import FilterTweets from "../Filter/FilterTweets";
+// import SelectedFilters from "../../shared/components/SelectedFilters/SelectedFilters";
 import { getTweets } from "../../utils/Api";
 
 const Tweets = () => {
@@ -13,6 +15,8 @@ const Tweets = () => {
   });
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
+  // const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [follow, setFollow] = useState("");
 
   useEffect(() => {
     const fechTweets = async () => {
@@ -54,14 +58,43 @@ const Tweets = () => {
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
+  // const handleFilterOpenChange = (isOpen) => {
+  //   setIsFilterOpen(isOpen);
+  // };
+
+  // const getFollowLabel = (value) => {
+  //   switch (value) {
+  //     case "show-all":
+  //       return "show all";
+  //     case "follow":
+  //       return "follow";
+  //     case "followings":
+  //       return "followings";
+  //     default:
+  //       return "";
+  //   }
+  // };
+  // const selectedFilters = [
+  //   ...(follow ? [{ label: getFollowLabel(follow), value: follow }] : []),
+  // ];
 
   const navigate = useNavigate();
   const goBack = () => navigate("/");
   return (
     <>
-      <Button onClick={goBack} type="button">
-        Go Back
-      </Button>
+      <FilterContainer>
+        <Button onClick={goBack} type="button">
+          Go Back
+        </Button>
+        <FilterTweets
+          follow={follow}
+          setFollow={setFollow}
+          // onFilterOpenChange={handleFilterOpenChange}
+        />
+        {/* {isFilterOpen && (
+          <SelectedFilters filters={selectedFilters} setFollow={setFollow} />
+        )} */}
+      </FilterContainer>
       <TweetsList>
         {items.map((item) => (
           <TweetItem

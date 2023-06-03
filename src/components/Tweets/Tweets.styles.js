@@ -12,3 +12,10 @@ export const TweetsList = styled.ul`
   margin-left: auto;
   margin-right: auto;
 `;
+
+export const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+`;

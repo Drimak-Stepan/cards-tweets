@@ -7,6 +7,8 @@ export const Item = styled.li`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  margin-left: auto;
+  margin-right: auto;
   align-items: center;
   padding-bottom: 36px;
   width: 380px;
