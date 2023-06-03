@@ -13,11 +13,11 @@ const Checkbox = ({ checked, option, label, onChange }) => {
     <CheckBoxContainer onClick={onClick}>
       <CheckBoxItem>
         {checked ? (
-          <svg>
+          <svg height="44px">
             <use href={`${icon}#check`}></use>
           </svg>
         ) : (
-          <svg>
+          <svg height="44px">
             <use href={`${icon}#uncheck`}></use>
           </svg>
         )}

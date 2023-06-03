@@ -8,7 +8,6 @@ const Filter = ({
   selectedOptions = [],
 }) => {
   const handleChange = ({ option, checked }) => {
-    console.log(checked);
     if (checked) {
       onChange(isSingleSelection ? [option] : [...selectedOptions, option]);
     } else {
@@ -17,7 +16,6 @@ const Filter = ({
   };
 
   const isChecked = (value) => {
-    console.log(value);
     return !!selectedOptions.find((item) => item === value);
   };
 

@@ -41,7 +41,9 @@ const FilterTweets = ({ onFilterOpenChange, follow, setFollow }) => {
   return (
     <FilterContainer ref={containerRef}>
       {isFilterOpen ? (
-        <Button onClick={handleFilterClick}>Search</Button>
+        <Button onClick={handleFilterClick} type="button">
+          Mask
+        </Button>
       ) : (
         <Button onClick={handleFilterClick} type="button">
           Filter
@@ -53,7 +55,7 @@ const FilterTweets = ({ onFilterOpenChange, follow, setFollow }) => {
             filters={followFilterItems}
             selectedOptions={[follow]}
             name="follow"
-            isSingleSelection={false}
+            isSingleSelection={true}
             onChange={handleFollowChange}
           ></Filter>
         </FilterOptions>

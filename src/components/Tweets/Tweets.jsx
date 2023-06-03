@@ -4,7 +4,6 @@ import { TweetsList, FilterContainer } from "./Tweets.styles";
 import Button from "../../shared/components/Button";
 import TweetItem from "../TweetItem/TweetItem";
 import FilterTweets from "../Filter/FilterTweets";
-// import SelectedFilters from "../../shared/components/SelectedFilters/SelectedFilters";
 import { getTweets } from "../../utils/Api";
 
 const Tweets = () => {
@@ -15,7 +14,7 @@ const Tweets = () => {
   });
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [follow, setFollow] = useState("");
 
   useEffect(() => {
@@ -27,6 +26,7 @@ const Tweets = () => {
         }));
 
         const { data } = await getTweets(page);
+
         setItems((items) => [...items, ...data]);
         setState((prevState) => ({
           ...prevState,
@@ -58,28 +58,31 @@ const Tweets = () => {
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
-  // const handleFilterOpenChange = (isOpen) => {
-  //   setIsFilterOpen(isOpen);
-  // };
 
-  // const getFollowLabel = (value) => {
-  //   switch (value) {
-  //     case "show-all":
-  //       return "show all";
-  //     case "follow":
-  //       return "follow";
-  //     case "followings":
-  //       return "followings";
-  //     default:
-  //       return "";
-  //   }
-  // };
-  // const selectedFilters = [
-  //   ...(follow ? [{ label: getFollowLabel(follow), value: follow }] : []),
-  // ];
+  const handleFilterOpenChange = (isOpen) => {
+    setIsFilterOpen(isOpen);
+  };
 
   const navigate = useNavigate();
   const goBack = () => navigate("/");
+
+  const visibleTweets = () => {
+    if (isFilterOpen && follow !== "") {
+      switch (follow) {
+        case "show-all":
+          return items;
+        case "follow":
+          return items.filter((item) => !item.following);
+        case "followings":
+          return items.filter((item) => item.following);
+        default:
+          return items;
+      }
+    }
+    return items;
+  };
+
+  const tweetsList = visibleTweets();
   return (
     <>
       <FilterContainer>
@@ -89,14 +92,11 @@ const Tweets = () => {
         <FilterTweets
           follow={follow}
           setFollow={setFollow}
-          // onFilterOpenChange={handleFilterOpenChange}
+          onFilterOpenChange={handleFilterOpenChange}
         />
-        {/* {isFilterOpen && (
-          <SelectedFilters filters={selectedFilters} setFollow={setFollow} />
-        )} */}
       </FilterContainer>
       <TweetsList>
-        {items.map((item) => (
+        {tweetsList.map((item) => (
           <TweetItem
             key={item.id}
             id={item.id}
