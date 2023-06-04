@@ -27,18 +27,13 @@ const Tweets = () => {
         }));
 
         const { data } = await getTweets(page);
-
-        setItems((items) => [...items, ...data]);
-        setState((prevState) => ({
-          ...prevState,
-          load: true,
-        }));
-
-        if (data.length < 3)
+        if (data.length === 0) {
           setState((prevState) => ({
             ...prevState,
-            load: false,
+            load: true,
           }));
+        }
+        setItems((items) => [...items, ...data]);
       } catch (error) {
         setState((prevState) => ({
           ...prevState,
@@ -113,8 +108,8 @@ const Tweets = () => {
         ))}
       </TweetsList>
 
-      {state.load && (
-        <Button onClick={loadMore} type="button">
+      {tweetsList.length > 2 && (
+        <Button disabled={state.load} onClick={loadMore} type="button">
           {state.loading ? <Loader /> : "Lore more"}
         </Button>
       )}

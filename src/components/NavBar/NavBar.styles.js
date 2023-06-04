@@ -36,7 +36,7 @@ export const Header = styled.header`
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 8px 0;
+  padding: 8px 0 10px 10px;
   border-bottom: 2px solid #766a92;
   background-color: #fff;
 

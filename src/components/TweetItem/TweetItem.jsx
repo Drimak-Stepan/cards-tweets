@@ -27,13 +27,13 @@ const TweetItem = ({
 
   const handleUpdate = async () => {
     try {
-      setFollow(true);
       const updateToFollowing = {
         following: true,
         followers: follower + 1,
       };
-      await updateFollowing(id, updateToFollowing);
-      setFollower(followers + 1);
+      const { data } = await updateFollowing(id, updateToFollowing);
+      setFollow(data.following);
+      setFollower(data.followers);
     } catch (error) {
       return error;
     }
@@ -41,13 +41,13 @@ const TweetItem = ({
 
   const handleCancel = async () => {
     try {
-      setFollow(false);
       const updateToFollowing = {
         following: false,
         followers: follower - 1,
       };
-      await updateFollowing(id, updateToFollowing);
-      setFollower(followers - 1);
+      const { data } = await updateFollowing(id, updateToFollowing);
+      setFollow(data.following);
+      setFollower(data.followers);
     } catch (error) {
       return error;
     }
