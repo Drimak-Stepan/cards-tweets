@@ -5,6 +5,7 @@ import Button from "../../shared/components/Button";
 import TweetItem from "../TweetItem/TweetItem";
 import FilterTweets from "../Filter/FilterTweets";
 import { getTweets } from "../../utils/Api";
+import Loader from "../../shared/Loader/Loader";
 
 const Tweets = () => {
   const [state, setState] = useState({
@@ -64,6 +65,7 @@ const Tweets = () => {
   };
 
   const navigate = useNavigate();
+
   const goBack = () => navigate("/");
 
   const visibleTweets = () => {
@@ -87,14 +89,16 @@ const Tweets = () => {
     <>
       <FilterContainer>
         <Button onClick={goBack} type="button">
-          Go Back
+          {state.loading ? <Loader /> : "Go Back"}
         </Button>
+
         <FilterTweets
           follow={follow}
           setFollow={setFollow}
           onFilterOpenChange={handleFilterOpenChange}
         />
       </FilterContainer>
+
       <TweetsList>
         {tweetsList.map((item) => (
           <TweetItem
@@ -108,9 +112,10 @@ const Tweets = () => {
           />
         ))}
       </TweetsList>
+
       {state.load && (
         <Button onClick={loadMore} type="button">
-          Lore more
+          {state.loading ? <Loader /> : "Lore more"}
         </Button>
       )}
     </>
